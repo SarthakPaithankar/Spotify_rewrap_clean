@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 47, "column": 0}, "map": {"version":3,"sources":["file:///home/node/app/app/api/login/route.js"],"sourcesContent":["import nextConnect from 'next-connect';\nimport query from './lib/route';\n\nconst handler = nextConnect()\n\nhandler.get(async (req, res) =>{\n    try{\n        const username = req.username;\n        const password = req.password;\n        const user = query('SELECT user FROM users WHERE username = $1', [username])\n        if(password === user.password){\n            console.log(user)\n        }\n        res.status.json(users);\n    } catch(error){\n        console.error(error);\n        res.status(500).json({ error: 'Failed to fetch users' });\n    }\n})\n\nexport default handler"],"names":[],"mappings":";;;;;;;;;;;;;;;AAGA,MAAM,UAAU;AAEhB,QAAQ,GAAG,CAAC,OAAO,KAAK;IACpB,IAAG;QACC,MAAM,WAAW,IAAI,QAAQ;QAC7B,MAAM,WAAW,IAAI,QAAQ;QAC7B,MAAM,OAAO,MAAM,8CAA8C;YAAC;SAAS;QAC3E,IAAG,aAAa,KAAK,QAAQ,EAAC;YAC1B,QAAQ,GAAG,CAAC;QAChB;QACA,IAAI,MAAM,CAAC,IAAI,CAAC;IACpB,EAAE,OAAM,OAAM;QACV,QAAQ,KAAK,CAAC;QACd,IAAI,MAAM,CAAC,KAAK,IAAI,CAAC;YAAE,OAAO;QAAwB;IAC1D;AACJ;uCAEe"}},
-    {"offset": {"line": 82, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
-}
