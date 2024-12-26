@@ -1,28 +1,33 @@
-import { signIn } from "@/auth";
-import pg from 'pg'
+import pg from 'pg';
 
+// Database configuration
 const dbConfig = {
     user: process.env.POSTGRES_USER,
     host: process.env.POSTGRES_HOST,
     password: process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_DB,
-    port: process.env.POSTGRES_PORT
-}
-const db = pg.Pool(dbConfig)
+    port: process.env.POSTGRES_PORT,
+};
 
-export async function query(text, params){
-    const client = pool.connect();
-    if(!response.ok){
-        res.status(400).json({error: 'No database Connection'})
-        console.log('database not connected')
-    }else{
-        console.log('database connected!')
-    }
-    try{
-        const result = await client.query(text, params)
-        return result;
-        
-    }finally{
-        client.release()
+// Create a connection pool
+const db = new pg.Pool(dbConfig);
+
+export default async function query(text, params) {
+    let client;
+    try {
+        client = await db.connect();
+        console.log('Database connected!');
+
+        const result = await client.query(text, params);
+        console.log('Query Result:', result.rows); 
+        return result.rows;
+    } catch (error) {
+        console.error('Query Error:', error.message);
+        throw error; 
+    } finally {
+        if (client) {
+            client.release();
+            console.log('Database connection released.');
+        }
     }
 }

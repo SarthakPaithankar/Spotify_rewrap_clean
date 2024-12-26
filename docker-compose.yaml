@@ -18,9 +18,11 @@ services:
     depends_on:
       - db
     ports:
-      - '3000:4000'
+      - '3000:3000'
     volumes:
       - ./:/home/node/app   #added to make live rebuilding/development easier
     command: 'npm run dev'  
 volumes:
   spotify_db: 
+
+  

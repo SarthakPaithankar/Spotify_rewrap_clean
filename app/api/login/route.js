@@ -1,21 +1,28 @@
-import nextConnect from 'next-connect'
-import query from './lib/route'
+import query from '../../lib/route';
 
-const handler = nextConnect()
-
-handler.get(async (req, res) =>{
-    try{
-        const username = req.username;
-        const password = req.password;
-        const user = query('SELECT user FROM users WHERE username = $1', [username])
-        if(password === user.password){
-            console.log(user)
+export async function POST(req) {
+    try {
+        // Parse request body
+        const body = await req.json();
+        const { email, password } = body;
+        const result = await query('SELECT * FROM users WHERE email = $1', [email]);
+        console.log(body)
+        // Check if user exists
+        if (!result || result.length === 0) {
+            console.log('User not found');
+            return Response.json({ error: 'User not found' }, { status: 404 });
         }
-        res.status.json(users);
-    } catch(error){
-        console.error(error);
-        res.status(500).json({ error: 'Failed to fetch users' });
+        const user = result[0];
+        if (password === user.password) {
+            console.log('Password matched!');
+            return Response.json({ message: 'Login successful', user }, { status: 200 });
+        } else {
+            console.log('Password mismatch');
+            return Response.json({ error: 'Invalid credentials' }, { status: 401 });
+        }
+    } catch (error) {
+        console.error('Server Error:', error);
+        return Response.json({ error: 'Server error' }, { status: 500 });
     }
-})
+}
 
-export default handler

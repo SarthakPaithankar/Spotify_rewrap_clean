@@ -12,13 +12,14 @@ export default function LogInPage() {
         const email = formData.get('email')
         const password = formData.get('password')
 
-        const response = await fetch('api/login/route', {
+        const response = await fetch('/api/login', {
             method: 'POST' ,
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({email, password}),
         })
         if(response.ok){
             router.push('/home')
+            console.log('no error')
         }else{
             console.log('login error')
         }

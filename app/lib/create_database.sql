@@ -1,4 +1,4 @@
 CREATE TABLE users(
-    username VARCHAR(50) NOT NULL,
-    password CHAR(60) NOT NULL
+    email VARCHAR(50) NOT NULL,
+    password VARCHAR(60) NOT NULL
 )
