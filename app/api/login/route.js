@@ -2,12 +2,9 @@ import query from '../../lib/route';
 
 export async function POST(req) {
     try {
-        // Parse request body
         const body = await req.json();
         const { email, password } = body;
         const result = await query('SELECT * FROM users WHERE email = $1', [email]);
-        console.log(body)
-        // Check if user exists
         if (!result || result.length === 0) {
             console.log('User not found');
             return Response.json({ error: 'User not found' }, { status: 404 });

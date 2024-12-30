@@ -19,6 +19,8 @@ export default async function query(text, params) {
         console.log('Database connected!');
 
         const result = await client.query(text, params);
+        console.log(text); 
+        console.log(params); 
         console.log('Query Result:', result.rows); 
         return result.rows;
     } catch (error) {

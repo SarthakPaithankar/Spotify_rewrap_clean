@@ -1,29 +1,37 @@
 'use client'
 import { FormEvent } from "react";
 import { useRouter } from "next/navigation";
+
+import { useActionState } from 'react';
+import { authenticate } from '../actions';
+
 export default function LogInPage() {
 
     const router = useRouter()
+    const [errorMessage, formAction, isPending] = useActionState(
+        authenticate,
+        undefined,
+    );
+    //async function handleSubmit(event){
+        // console.log('Enter-----------')
+        // event.preventDefault()
+        // const formData = new FormData(event.currentTarget)
 
-    async function handleSubmit(event){
-        event.preventDefault()
-
-        const formData = new FormData(event.currentTarget)
-        const email = formData.get('email')
-        const password = formData.get('password')
-
-        const response = await fetch('/api/login', {
-            method: 'POST' ,
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({email, password}),
-        })
-        if(response.ok){
-            router.push('/home')
-            console.log('no error')
-        }else{
-            console.log('login error')
-        }
-    }
+        // const email = formData.get('email')
+        // const password = formData.get('password')
+        // console.log('here1: ',email)
+        // const response = await fetch('/api/login', {
+        //     method: 'POST' ,
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify({email, password})
+        // })
+        // if(response.ok){
+        //     router.push('/home')
+        //     console.log('no error')
+        // }else{
+        //     console.log('login error')
+        // }
+    //}
 
     return (
         <div className="shadow-lg p-6 bg-rose-900 flex">
@@ -35,14 +43,14 @@ export default function LogInPage() {
                     </div>
                     <div className="h-1/5"></div>
                     <div className="h-1/2 flex items-start text-rose-900">
-                        <form onSubmit={handleSubmit} className="max-w-sm mx-left">
+                        <form action={formAction} className="max-w-sm mx-left">
                             <div className="mb-5">
                                 <label htmlFor="email" className="block mb-2 text-lg font-large text-rose-900">Your email</label>
-                                <input type="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-96 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter your Email" required />
+                                <input type="email" id="email" name="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-96 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter your Email" required />
                             </div>
                             <div className="mb-5">
                                 <label htmlFor="password" className="block mb-2 text-lg font-large text-rose-900">Your password</label>
-                                <input type="password" id="password" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-96 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                                <input type="password" id="password" name="password" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-96 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                             </div>
                             <div className="flex items-start mb-5">
                                 <div className="flex items-center h-5">
@@ -50,13 +58,19 @@ export default function LogInPage() {
                                 </div>
                                 <label htmlFor="remember" className="ms-2 text-lg font-medium text-rose-900">Remember me</label>
                             </div>
-                            <button type="submit" className="text-white bg-rose-900 hover:bg-rose-800 focus:ring-4 focus:outline-none focus:ring-rose-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Submit</button>
+                            <button type="submit" disabled={isPending} className="text-white bg-rose-900 hover:bg-rose-800 focus:ring-4 focus:outline-none focus:ring-rose-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Submit</button>
+                            <div className="flex h-8 items-end space-x-1" aria-live="polite" aria-atomic="true">
+                                {errorMessage && (
+                                    <>
+                                        <p className="text-sm text-red-500">{errorMessage}</p>
+                                    </>
+                                )}
+                            </div>
                         </form>
                     </div>
                 </div>
             </div>
-
-
+            
             <div className="w-1/2 rounded-lg min-h-5/6 flex items-center justify-center pt-10 pb-10 bg-black bg-[url('/logo.jpg')] bg-cover bg-center">
                 <div className="rounded-lg shadow-lg p-6 h-4/5 w-4/5 opacity-.1">
                     <div className="top-2/5"></div>
