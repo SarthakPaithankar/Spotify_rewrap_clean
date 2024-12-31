@@ -6,33 +6,11 @@ import { useActionState } from 'react';
 import { authenticate } from '../actions';
 
 export default function LogInPage() {
-
     const router = useRouter()
     const [errorMessage, formAction, isPending] = useActionState(
         authenticate,
         undefined,
     );
-    //async function handleSubmit(event){
-        // console.log('Enter-----------')
-        // event.preventDefault()
-        // const formData = new FormData(event.currentTarget)
-
-        // const email = formData.get('email')
-        // const password = formData.get('password')
-        // console.log('here1: ',email)
-        // const response = await fetch('/api/login', {
-        //     method: 'POST' ,
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify({email, password})
-        // })
-        // if(response.ok){
-        //     router.push('/home')
-        //     console.log('no error')
-        // }else{
-        //     console.log('login error')
-        // }
-    //}
-
     return (
         <div className="shadow-lg p-6 bg-rose-900 flex">
             <div className="w-1/2 rounded-lg min-h-screen flex items-center justify-center pt-10 pb-10 bg-black bg-[url('/logo.jpg')] bg-cover bg-center">
@@ -52,12 +30,6 @@ export default function LogInPage() {
                                 <label htmlFor="password" className="block mb-2 text-lg font-large text-rose-900">Your password</label>
                                 <input type="password" id="password" name="password" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-96 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                             </div>
-                            <div className="flex items-start mb-5">
-                                <div className="flex items-center h-5">
-                                <input id="remember" type="checkbox" value="" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" required />
-                                </div>
-                                <label htmlFor="remember" className="ms-2 text-lg font-medium text-rose-900">Remember me</label>
-                            </div>
                             <button type="submit" disabled={isPending} className="text-white bg-rose-900 hover:bg-rose-800 focus:ring-4 focus:outline-none focus:ring-rose-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Submit</button>
                             <div className="flex h-8 items-end space-x-1" aria-live="polite" aria-atomic="true">
                                 {errorMessage && (
@@ -70,7 +42,7 @@ export default function LogInPage() {
                     </div>
                 </div>
             </div>
-            
+
             <div className="w-1/2 rounded-lg min-h-5/6 flex items-center justify-center pt-10 pb-10 bg-black bg-[url('/logo.jpg')] bg-cover bg-center">
                 <div className="rounded-lg shadow-lg p-6 h-4/5 w-4/5 opacity-.1">
                     <div className="top-2/5"></div>
