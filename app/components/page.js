@@ -12,9 +12,13 @@ export default function Navbar() {
                         <span className="text-xl font-semibold text-white">Spotify Rewrapped</span>
                     </div>
                     <div className="flex-none items-center">
-                        <a href="#about" className="text-white px-4">About</a>
-                        <a href="#contact" className="text-white px-4">Sign Up</a>
-                        <a  href="#" className='text-white px-4' onClick={handleSignOut}>Sign Out</a>
+                    <form action={handleSignOut}>
+                            <a href="#about" className="text-white px-4">About</a>
+                            <a href="#contact" className="text-white px-4">Sign Up</a>
+                            <button className="text-white px-4">
+                                <div className="hidden md:block">Sign Out</div>
+                            </button>
+                        </form>
                     </div>
                 </div>
             </nav>

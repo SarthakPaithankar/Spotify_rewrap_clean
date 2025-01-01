@@ -1,5 +1,5 @@
 'use client'
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { useActionState } from 'react';
@@ -7,7 +7,7 @@ import { authenticate } from '../actions';
 
 export default function LogInPage() {
     const router = useRouter()
-    const [errorMessage, formAction, isPending] = useActionState(
+    const [errorMessage, formAction] = useActionState(
         authenticate,
         undefined,
     );
@@ -30,7 +30,7 @@ export default function LogInPage() {
                                 <label htmlFor="password" className="block mb-2 text-lg font-large text-rose-900">Your password</label>
                                 <input type="password" id="password" name="password" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-96 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                             </div>
-                            <button type="submit" disabled={isPending} className="text-white bg-rose-900 hover:bg-rose-800 focus:ring-4 focus:outline-none focus:ring-rose-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Submit</button>
+                            <button type="submit" className="text-white bg-rose-900 hover:bg-rose-800 focus:ring-4 focus:outline-none focus:ring-rose-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Submit</button>
                             <div className="flex h-8 items-end space-x-1" aria-live="polite" aria-atomic="true">
                                 {errorMessage && (
                                     <>
