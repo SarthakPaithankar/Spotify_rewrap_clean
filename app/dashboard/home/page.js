@@ -9,8 +9,6 @@ export default function HomePage(){
     const [message, setMessage] = useState("")
     async function handleFileUpload(event){
         event.preventDefault();
-        //const signedUrl = await getSignedURL();
-        //console.log(signedUrl)
         console.log('begin')
         const formData = new FormData(event.target);
         const zipFile = event.target.elements.json_data.files[0];
@@ -22,49 +20,47 @@ export default function HomePage(){
             if(!file.endsWith("json")){
                 setMessage('Invalid File: ${file}')
             }else{
-                Files.push(file)
+                const blob = await fileContent.async("blob")
+                const fileObject = new File([blob], file, {
+                    type: blob.type || "application/octet-stream",
+                })
+                console.log(fileObject)
+                Files.push(fileObject)
             }
         }
+        var checker = 0
+        var url = ''
         for(const file of Files){
-            console.log(file);
+            if(checker == 0){
+                const signedUrl = await getSignedURL();
+                console.log('File from 1st post ${file}')
+                console.log(signedUrl)
+                url = signedUrl.success.url
+                if(url.failure){
+                    console.error('signed url failure')
+                }
+                console.log(url)
+                if(signedUrl.failure !== undefined){
+                    setMessage('SURL error')
+                    console.error("Signed URL fetch error");
+                    return
+                }
+                console.log('enter')
+            }
+            checker += 1
+                console.log("FILE 1: ", checker)
+                setMessage("Uploading")
+                console.log('uploading file: ', checker)
+                await fetch(url,{
+                    method: "PUT",
+                    body: file,
+                    headers: {
+                        "Content-Type": "application/json",
+                    }
+                })
+                setMessage('Success')
+                console.log("posted")
         }
-        // new_zip.
-        // console.log(Files)
-        // var checker = 0
-        // for(const file of Files){
-        //     if(checker == 0){
-        //         const signedUrl = await getSignedURL();
-        //         console.log(signedUrl)
-        //         const url = signedUrl.success.url
-        //         // if(signedUrl.failure !== undefined){
-        //         //     setMessage('SURL error')
-        //         //     console.error("Signed URL fetch error");
-        //         //     return
-        //         // }
-        //         console.log('enter')
-        //     }
-        //     checker += 1
-        //     if(file){
-        //         console.log("FILE 1: ", checker)
-        //         setMessage("Uploading")
-        //         if (file.type !== "application/json") {
-        //             console.error("Only JSON files are allowed");
-        //             setMessage('Invalid File: ', )
-        //             return;
-        //         }
-        //         console.log('uploading file: ', checker)
-
-        //         // await fetch(url,{
-        //         //     method: "PUT",
-        //         //     body: file,
-        //         //     headers: {
-        //         //         "Content-Type": "application/json",
-        //         //     }
-        //         // })
-        //         setMessage('Success')
-        //         console.log("posted")
-        //     }
-        // }
     }
     return(
         <div className="flex flex-row p-6 bg-rose-900">
